@@ -49,10 +49,13 @@ class Api {
     if (token != null) {
       header.addAll({'Authorization': 'Bearer $token'});
     }
+    print(
+        'url=$url body=$body token=$token'); //this print and the print after store data important do it to check if my request is correct or i have any issue
     http.Response response =
         await http.post(Uri.parse(url), body: body, headers: header);
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
+      print(data);
       return data;
     } else {
       throw Exception(

@@ -7,7 +7,7 @@ import 'package:store_app/widgets/custome_text_field.dart';
 
 class UpdateProductPage extends StatefulWidget {
   // convert to statefull widget bec. the ui will change
-  UpdateProductPage({super.key});
+  const UpdateProductPage({super.key});
   static String id = 'UpdateProductPage';
 
   @override
@@ -78,11 +78,12 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                 ),
                 CustomButton(
                   text: 'Update',
-                  ontap: () {
+                  ontap: ()async {
                     isLoading = true;
                     setState(() {});
+                 
                     try {
-                      updateProduct(product);
+                        await updateProduct(product);
                       print('success');
                     } catch (e) {
                       print(e
@@ -100,12 +101,13 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
     );
   }
 
-  void updateProduct(ProductModel product) {
-    UpdateProductService().updateProduct(
-        title: productName!,
-        price: price!,
-        decs: desc!,
-        image: image!,
+ Future< void> updateProduct(ProductModel product)async {
+   await UpdateProductService().updateProduct(
+      id: product.id,
+        title: productName==null ? product.title:productName!,
+        price:price==null? product.price.toString(): price!,
+        decs:desc==null?product.description: desc!,
+        image: image==null? product.image: image!,
         category: product.category);
   }
 }
